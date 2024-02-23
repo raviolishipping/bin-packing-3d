@@ -1,13 +1,7 @@
-3D bin packing
+3D bin packing (Ravioli Edition)
 ====
 
-JavaScript solution for 3D bin packing problem.
-
-## Install
-
-```
-npm i bin-packing-3d
-```
+JavaScript solution for 3D bin packing problem adapted to our use case at Ravioli.
 
 ## Basics
 
@@ -84,7 +78,7 @@ for (let i = 0; i < packer.bins.length; i++) {
 ```
 
 ## Credits
-
+* https://github.com/Etam1ne/bin-packing-3d
 * https://github.com/bom-d-van/binpacking
 * https://github.com/gedex/bp3d
 * https://github.com/enzoruiz/3dbinpacking
