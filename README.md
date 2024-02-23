@@ -40,10 +40,10 @@ packer.pack();               // Packing items to bins. Returns true if all items
 ```js
 let packer = new Packer();
 
-packer.add_bin(new Bin('Big Box', 11.5, 6.125, 0.25, 10));
+packer.addBin(new Bin('Big Box', 11.5, 6.125, 0.25, 10));
 
-packer.add_item(new Item('Small Package of Ravioli', 10.2, 3, 15.8, 1));
-packer.add_item(new Item('Big Package of Ravioli', 12, 6.2, 20.6, 2));
+packer.addItem(new Item('Small Package of Ravioli', 10.2, 3, 15.8, 1));
+packer.addItem(new Item('Big Package of Ravioli', 12, 6.2, 20.6, 2));
 
 const packed = packer.pack();
 
