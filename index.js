@@ -30,8 +30,8 @@ axis.ALL = [axis.WIDTH, axis.HEIGHT, axis.DEPTH]
 const START_POSITION = [0, 0, 0];
 
 function rect_intersect(item1, item2, x, y) {
-    let d1 = item1.get_dimension()
-    let d2 = item2.get_dimension()
+    let d1 = item1.getDimensions()
+    let d2 = item2.getDimensions()
 
     let cx1 = item1.position[x] + d1[x]/2
     let cy1 = item1.position[y] + d1[y]/2
@@ -82,11 +82,11 @@ class Item {
         this.position = START_POSITION;
     }
 
-    get_volume() {
+    getVolume() {
         return this.width * this.height * this.depth
     }
 
-    get_dimension() {
+    getDimensions() {
         switch (this.rotation_type) {
             case rotationType.RT_WHD:
                 return [this.width, this.height, this.depth]
@@ -128,11 +128,12 @@ class Bin {
         this.unfitted_items = []
     }
 
-    get_volume() {
+    getVolume() {
         return this.width * this.height * this.depth
     }
 
-    get_total_weight() {
+    // not used currently
+    getTotalWeight() {
         let total_weight = 0
 
         for (let i = 0; i < this.items.length; i++) {
@@ -146,7 +147,7 @@ class Bin {
         return this.width * this.height * this.depth
     }
 
-    put_item(item, pivot) {
+    putItem(item, pivot) {
         let fit = false
         let valid_item_position = item.position
         item.position = pivot
@@ -155,7 +156,7 @@ class Bin {
 
         for (let i = 0; i < shuffeledRotationTypes.length; i++) {
             item.rotation_type = shuffeledRotationTypes[i]
-            let dimension = item.get_dimension()
+            let dimension = item.getDimensions()
             // checks if one side of the current item is bigger than one side of the bin
             // rotates trough all possible rotations of the item and checks again
             if (
@@ -177,7 +178,7 @@ class Bin {
 
             if (fit) {
                 // don't need weight right now
-                // if (this.get_total_weight() + item.weight > this.max_weight) {
+                // if (this.getTotalWeight() + item.weight > this.max_weight) {
                 //     fit = false
                 //     return fit
                 // }
@@ -211,11 +212,11 @@ class Packer {
         this.total_items = 0
     }
 
-    add_bin(bin) {
+    addBin(bin) {
         return this.bins.push(bin)
     }
 
-    add_item(item) {
+    addItem(item) {
         this.total_items = this.items.length + 1
 
         return this.items.push(item)
@@ -227,11 +228,11 @@ class Packer {
         }, 0)
     }
 
-    pack_to_bin(bin, item) {
+    packToBin(bin, item) {
         let fitted = false
         if (bin.items.length === 0) {
             // if no items are in bin yet
-            let response = bin.put_item(item, START_POSITION)
+            let response = bin.putItem(item, START_POSITION)
 
             if (!response) {
                 return false
@@ -246,7 +247,7 @@ class Packer {
 
             for (let j = 0; j < items_in_bin.length; j++) {
                 let pivot = [0, 0, 0]
-                let [ w, h, d ] = items_in_bin[j].get_dimension()
+                let [ w, h, d ] = items_in_bin[j].getDimensions()
                 let addToPivot;
                 if (i == axis.WIDTH) {
                     addToPivot = w + items_in_bin[j].position[0]
@@ -273,7 +274,7 @@ class Packer {
                     ]
                 }
 
-                if (bin.put_item(item, pivot)) {
+                if (bin.putItem(item, pivot)) {
                     fitted = true
                     return true
                     break
@@ -290,7 +291,6 @@ class Packer {
         bigger_first=false, distribute_items=false
     ) {
         // calculate total volume in function, if larger than volume of bin, return false
-        console.log(this.totalItemsVolume(), this.bins[0].binVolume())
         for (let i = 0; i < this.bins.length; i++) {
             if (this.totalItemsVolume() > this.bins[i].binVolume()) {
                 return false
@@ -299,18 +299,18 @@ class Packer {
         
         this.bins.sort((a, b) => {
             if (!bigger_first) {
-                return a.get_volume() - b.get_volume();
+                return a.getVolume() - b.getVolume();
             }
             else {
-                return b.get_volume() - a.get_volume();
+                return b.getVolume() - a.getVolume();
             }
         })
         this.items.sort((a, b) => {
             if (!bigger_first) {
-                return a.get_volume() - b.get_volume();
+                return a.getVolume() - b.getVolume();
             }
             else {
-                return b.get_volume() - a.get_volume();
+                return b.getVolume() - a.getVolume();
             }
         })
 
@@ -318,7 +318,7 @@ class Packer {
 
         for (let i = 0; i < this.bins.length; i++) {
             for (let j = 0; j < this.items.length; j++) {
-                if (!this.pack_to_bin(this.bins[i], this.items[j])) {
+                if (!this.packToBin(this.bins[i], this.items[j])) {
                     this.bins[i].items = []
                     this.bins[i].unfit_items = []
                     for (let k = 0; k < this.items.length; k++) {
@@ -327,7 +327,6 @@ class Packer {
                     }
                     j = -1
                     retryCounter++
-                    console.log("retry", retryCounter)
                     if (retryCounter === 20) {
                         return false
                     }
@@ -342,4 +341,3 @@ class Packer {
         return true
     }
 }
-
