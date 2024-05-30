@@ -9,13 +9,13 @@ All interactions happen with 3 main object types:
 
 **Bin** - space (rectangular cuboid) which is being filled with Items. 
 
-```
+```js
 let myBin = new Bin(name, width, height, depth, max_weight);
 ```
 
 **Item** - box (also a rectangular cuboid) which is being placed in Bin.
 
-```
+```js
 let myItem = new Item(name, width, height, depth, max_weight);
 ```
 
