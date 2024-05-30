@@ -24,8 +24,8 @@ let myItem = new Item(name, width, height, depth, max_weight);
 ```js
 let packer = Packer();       // Packer definition
 
-packer.add_bin(myBin);       // Adding bin to packer
-packer.add_item(myItem);     // Adding item to bin
+packer.addBin(myBin);       // Adding bin to packer
+packer.addItem(myItem);     // Adding item to bin
 
 packer.pack();               // Packing items to bins. Returns true if all items fit into the bins
 ```
