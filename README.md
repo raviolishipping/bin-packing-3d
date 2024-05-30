@@ -47,7 +47,7 @@ packer.addItem(new Item('Big Package of Ravioli', 12, 6.2, 20.6, 2));
 
 const packed = packer.pack();
 
-console.log("All items fit into the bin: ${packed}");
+console.log(`All items fit into the bin: ${packed}`);
 ```
 
 ## Credits
