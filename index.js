@@ -328,7 +328,8 @@ class Packer {
                     j = -1
                     retryCounter++
                     if (retryCounter === 20) {
-                        return false
+                        this.bins[i].unfitted_items.push(this.items[j + 1]);
+                        return false;
                     }
                 }
             }
